@@ -7,6 +7,14 @@ class Item extends Component {
     this.onClick = this.onClick.bind(this);
   }
 
+  // 使用shouldComponentUpdate来代替
+  shouldComponentUpdate(nextProps){
+    if (this.props["marked"] === nextProps["marked"]) {
+      return false;
+    }
+    return true;
+  }
+
   onClick() {
     this.props.onClick(this.props.id);
   }
