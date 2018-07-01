@@ -13,7 +13,7 @@ class Item extends Component {
 
   render() {
     const {id, marked} = this.props;
-    const bgColor = marked ? '#ECF0F1' : '#fff';
+    const bgColor = marked ? 'red' : '#fff';
     console.log(id);
     return (
       <div
@@ -41,7 +41,8 @@ class App extends Component {
     return (
       <div className="main" style={{overflow: 'scroll', height: '600px'}}>
         {items.map(item =>
-          <Item key={item.id} id={item.id} marked={item.marked} onClick={markItem} />
+          // <Item key={item.id} id={item.id} marked={item.marked} onClick={markItem} />
+          <Item id={item.id} marked={item.marked} onClick={markItem} />
         )}
       </div>
     );

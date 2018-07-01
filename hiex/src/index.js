@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import App from './App';
 
 const initial_state = [];
-const STORE_SIZE = 20000;
+const STORE_SIZE = 5000;
 for (let i = 0; i < STORE_SIZE; i++) {
   initial_state.push({id: i, marked: false});
 }
