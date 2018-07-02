@@ -11,6 +11,7 @@ import {
 import React, {
   Component
 } from 'react';
+import {conenct} from 'react-redux'
 import App from './App';
 
 const initial_state = [];

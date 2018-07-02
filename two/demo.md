@@ -127,6 +127,11 @@ export default connect(mapStateToProps, {markItem})(App);
 
 ```
 
+[slide]
+# 测试数据
+  ![react组件](/image/react-render-all.png "haha")
+  - 将近70%的耗时都是由脚本执行引起的.
+  - 通过工具检测工具发现，其实时间主要花销在updateComponent函数中。
 
 [slide]
 
@@ -154,7 +159,7 @@ Warning: Each child in an array or iterator should have a unique "key" prop.
   ![react组件](/image/react-update.png "haha")
 - React的性能瓶颈主要出现在生成DOM及DOM Diff的过程
 1. shouldComponentUpdate 阶段判断，如果属性及状态与上一次相同，这个时候很明显UI不会变化，也不需要执行后续生成DOM，DOM Diff的过程了，可以提高性能。
-2. DOM Diff 阶段优化，提高Diff的效率
+2. DOM Diff 阶段优化，提高Diff的效率。
 ----
 
 [slide]
@@ -194,3 +199,16 @@ class App extends Component {
 }
 ```
 ----
+
+[slide]
+## 改善之后耗时统计
+  ![react组件](/image/react-render-update.png "haha")
+  - 默认情况下，状态改变之后就会执行render函数，但是并不意味着浏览器中的DOM树会发生改变，DOM树的修改与否是由Virtual Tree决定（diff算法）。
+  - 在默认情况下，只要状态发生改变，组件就会执行render函数重新渲染。我们可以通过shouldComponentUpdate来组织这种默认行为，只让状态发生改变的子组件渲染。
+
+
+[slide]
+##  第三方工具immutable.js
+
+
+
