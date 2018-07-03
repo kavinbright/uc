@@ -201,14 +201,29 @@ class App extends Component {
 ----
 
 [slide]
-## 改善之后耗时统计
+# 改善之后耗时统计
   ![react组件](/image/react-render-update.png "haha")
   - 默认情况下，状态改变之后就会执行render函数，但是并不意味着浏览器中的DOM树会发生改变，DOM树的修改与否是由Virtual Tree决定（diff算法）。
   - 在默认情况下，只要状态发生改变，组件就会执行render函数重新渲染。我们可以通过shouldComponentUpdate来组织这种默认行为，只让状态发生改变的子组件渲染。
 
 
 [slide]
-##  第三方工具immutable.js
+#  第三方工具immutableJS
+-  shallowCopy（浅复制）或 deepCopy（深复制）
+- javascript在对象中一般是引用赋值。虽然可以节约内存，但是应用复杂之后会造成状态混乱和不可控。
+```js
+var foo = {a: 1};
+var bar = foo; 
+bar.a = 2;
+console.log(foo.a)  //输出： 2
+```
+- Immutable应运而生。Immutable并不是专门应用于react的。
 
+[slide]
+# About
+  ![react组件](/image/immutableJs.gif "haha")
+- persistent data structure （持久化数据结构）
+- structural sharing （结构共享）
+- support lazy operation （惰性操作）
 
 
