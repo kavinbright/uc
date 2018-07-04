@@ -43,7 +43,7 @@ class Item extends Component {
           padding:'20px',
           border: '1px solid',
           fontSize: '40px',
-          display: 'flex',
+          display: 'flex',rt
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: bgColor,
