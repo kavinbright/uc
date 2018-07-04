@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 import React, {Component} from 'react';
+import { _ } from "lodash";
 
 class Item extends Component {
   constructor() {
     super();
     this.onClick = this.onClick.bind(this);
+
   }
 
   shouldComponentUpdate(nextProps){
@@ -18,7 +20,20 @@ class Item extends Component {
     this.props.onClick(this.props.id);
   }
 
+  state = {
+    times: 10,
+  }
+
   render() {
+    let data = this.state;
+    data.times = data.times + 1;
+    console.log(this.state.times);
+    console.log(data);
+    console.log("---------------------");
+
+    let data1 = _.deepCopy(this.state);
+    console.log();
+
     const {id, marked} = this.props;
     const bgColor = marked ? 'red' : '#fff';
     console.log(id);

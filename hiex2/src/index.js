@@ -42,6 +42,7 @@ const store = createStore(combineReducers({
 
 export default class NaiveList extends Component {
   render() {
+
     return ( <Provider store = {
         store
       } >
