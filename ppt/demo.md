@@ -206,11 +206,17 @@ class App extends Component {
   - 默认情况下，状态改变之后就会执行render函数，但是并不意味着浏览器中的DOM树会发生改变，DOM树的修改与否是由Virtual Tree决定（diff算法）。
   - 在默认情况下，只要状态发生改变，组件就会执行render函数重新渲染。我们可以通过shouldComponentUpdate来组织这种默认行为，只让状态发生改变的子组件渲染。
 
+[slide]
+# Tips
+- 在shouldUpdateComponent函数中做限定。
+- 使用pureComponent纯组件（在state或者props经常改变的时候不推荐使用，反而会使得性能底下）。
+- 设置正确的缺省值。
 
 [slide]
 #  第三方工具immutableJS
 -  shallowCopy（浅复制）或 deepCopy（深复制）
 - javascript在对象中一般是引用赋值。虽然可以节约内存，但是应用复杂之后会造成状态混乱和不可控。
+- shouldUpdateComponent是浅比较对象，深层次的数据结构根本不管用，性能非常差。。而immutanleJs使用hashcode可以解决。
 ```js
 var foo = {a: 1};
 var bar = foo; 
@@ -220,7 +226,7 @@ console.log(foo.a)  //输出： 2
 - Immutable应运而生。Immutable并不是专门应用于react的。
 
 [slide]
-# About
+# ImmutableJs
   ![react组件](/image/immutableJs.gif "haha")
 - persistent data structure （持久化数据结构）
 - structural sharing （结构共享）
@@ -228,30 +234,31 @@ console.log(foo.a)  //输出： 2
 
 [slide]
 # ImmutableJs
+- 丰富的语法糖
+> 之前的方式，为了在不污染原对象的前提下增加新的KV。对于复杂的state结构，在更新的时候直接只用immutableJs的api接口，非常容易。
 ```js
-import { is } from 'immutable';
-
-shouldComponentUpdate: (nextProps = {}, nextState = {}) => {
-  const thisProps = this.props || {}, thisState = this.state || {};
-
-  if (Object.keys(thisProps).length !== Object.keys(nextProps).length ||
-      Object.keys(thisState).length !== Object.keys(nextState).length) {
-    return true;
-  }
-
-  for (const key in nextProps) {
-    if (!is(thisProps[key], nextProps[key])) {
-      return true;
-    }
-  }
-
-  for (const key in nextState) {
-    if (thisState[key] !== nextState[key] && !is(thisState[key], nextState[key])) {
-      return true;
-    }
-  }
-  return false;
-}
+var state = Object.assign({}, state, {
+	key: value
+});
+```
+> 使用了immutableJs之后
+```js
+var state = state.set('key', value);
 ```
 
+- 性能的提升
+> 由于 immutable 内部使用了 Trie 数据结构来存储，只要两个对象的 hashCode 相等，值就是一样的。这样的算法避免了深度遍历比较，性能非常好。这对我们在进行具体渲染过程中的性能优化非常有用。同事也能都解决浅复制导致的不可控。
 
+[slide]
+# 使用了immutableJs之后
+![immutable](/image/react-immutable.png "性能检测")
+
+[slide]
+# Immutable的缺陷
+- 文件大，压缩之后50多k，增加资源文件的大小。
+- 有很多新的api需要学习成本
+- 容易与原生对象混淆
+- 代码侵入性太强，适合新的项目，就项目改造成本太大
+
+[slide]
+# Thinks
