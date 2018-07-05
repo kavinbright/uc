@@ -131,7 +131,7 @@ export default connect(mapStateToProps, {markItem})(App);
 # 测试数据
   ![react组件](/image/react-render-all.png "haha")
   - 将近70%的耗时都是由脚本执行引起的.
-  - 通过工具检测工具发现，其实时间主要花销在updateComponent函数中。
+  - 通过工具检测工具发现，其实时间主要开销在updateComponent函数中。
 
 [slide]
 
@@ -211,11 +211,23 @@ class App extends Component {
 - 在shouldUpdateComponent函数中做限定。
 - 使用pureComponent纯组件（在state或者props经常改变的时候不推荐使用，反而会使得性能底下）。
 - 设置正确的缺省值。
+```js
+//错误
+<RadioGroup options={this.props.options || []} />
+//正确
+const DEFAULT_OPTIONS = []
+<RadioGroup options={this.props.options || DEFAULT_OPTIONS} />
+```
+- 合理使用key属性。（react采用启发式算法对组件进行更新，销毁的，唯一的key可以帮助react快速找到相应的目标组件）
+```js
+> 1. 数组动态创建的子组件。
+> 2. 为一个有复杂繁琐逻辑的组件添加key后，后续操作可以改变该组件的key属性值，从而达到先销毁之前的组件，再重新创建该组件。
+```
 
 [slide]
 #  第三方工具immutableJS
 -  shallowCopy（浅复制）或 deepCopy（深复制）
-- javascript在对象中一般是引用赋值。虽然可以节约内存，但是应用复杂之后会造成状态混乱和不可控。
+- javascript在对象中一般是引用赋值。虽然可以节约内存，但是应用复杂之后会造成状态混乱和不可预测。
 - shouldUpdateComponent是浅比较对象，深层次的数据结构根本不管用，性能非常差。。而immutanleJs使用hashcode可以解决。
 ```js
 var foo = {a: 1};
@@ -235,7 +247,7 @@ console.log(foo.a)  //输出： 2
 [slide]
 # ImmutableJs
 - 丰富的语法糖
-> 之前的方式，为了在不污染原对象的前提下增加新的KV。对于复杂的state结构，在更新的时候直接只用immutableJs的api接口，非常容易。
+> 之前的方式，为了在不污染原对象的前提下增加新的KV。
 ```js
 var state = Object.assign({}, state, {
 	key: value
@@ -245,6 +257,7 @@ var state = Object.assign({}, state, {
 ```js
 var state = state.set('key', value);
 ```
+> 很显然，对于复杂的state结构，使用immutableJs提供的api接口，更为容易。
 
 - 性能的提升
 > 由于 immutable 内部使用了 Trie 数据结构来存储，只要两个对象的 hashCode 相等，值就是一样的。这样的算法避免了深度遍历比较，性能非常好。这对我们在进行具体渲染过程中的性能优化非常有用。同事也能都解决浅复制导致的不可控。
