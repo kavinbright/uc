@@ -12,10 +12,11 @@ import React, {
   Component
 } from 'react';
 import {conenct} from 'react-redux'
-import App from './App';
+// import App from './App';
+import Appl from './APP2';
 
 const initial_state = [];
-const STORE_SIZE = 10000;
+const STORE_SIZE = 10;
 for (let i = 0; i < STORE_SIZE; i++) {
   initial_state.push({
     id: i,
@@ -41,19 +42,26 @@ const store = createStore(combineReducers({
 }));
 
 export default class NaiveList extends Component {
-  render() {
+  // render() {
+  //   return ( <Provider store = {
+  //       store
+  //     } >
+  //     <
+  //     App / >
+  //     </Provider>
+  //   );
+  // }
 
-    return ( <Provider store = {
-        store
-      } >
-      <
-      App / >
+  render() {
+    return ( 
+      <Provider>
+        <Appl />
       </Provider>
     );
   }
 }
 
-render( <
-  NaiveList / > ,
+render( 
+  <NaiveList / > ,
   document.getElementById('root')
 )
